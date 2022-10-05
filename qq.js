@@ -1,6 +1,7 @@
 const { createClient } = require('oicq');
 
 const config = require('./config.json');
+const { getCode } = require('./lib');
 const account = config.account;
 const password = config.password;
 
@@ -47,21 +48,17 @@ client.on('request.group.invite', (e) => {
     }, 10000);
 });
 
-function setPrivate(getCode) {
-    client.on('message.private.friend', (e) => {
-        if (e == '验证码') {
-            let code = getCode(e.sender.user_id);
-            e.reply('验证码是「' + code + '」，一分钟内有效。');
-        } else {
-            e.reply('对不起，我不明白您的意思。');
-        }
-    });
-}
-function setGroup(handler) {
-    client.on('message.group', (e) => {
-        handler(e);
-    });
-}
+client.on('message.private.friend', (e) => {
+    if (e == '验证码') {
+        let code = getCode(e.sender.user_id);
+        e.reply('验证码是「' + code + '」，一分钟内有效。');
+    } else {
+        e.reply('对不起，我不明白您的意思。');
+    }
+});
+client.on('message.group', (e) => {
+    handler(e);
+});
 
 async function sendPrivateMessage(user_id, message){
     return await client.sendPrivateMsg(user_id, message);
@@ -75,8 +72,6 @@ function getAvatar(){
 
 module.exports = {
     account,
-    setPrivate,
-    setGroup,
     sendPrivateMessage,
     sendGroupMessage,
     getAvatar

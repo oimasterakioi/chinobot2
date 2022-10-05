@@ -1,0 +1,7 @@
+<% title = '注销' %>
+<%- include('header') %>
+<form action="/logout" method="POST">
+    用户名：<input type="text" value="<%= username %>" readonly><br>
+    <input type="submit" value="注销">
+</form>
+<%- include('footer') %>

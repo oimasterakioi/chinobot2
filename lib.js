@@ -1,4 +1,5 @@
 const moment = require("moment");
+const { insertCode, deleteCode, queryCode } = require("./db");
 const SHA256 = require("./sha256");
 
 function map2obj(map) {
@@ -23,22 +24,16 @@ function randstr(length){
     return SHA256('' + rid).substr(0, length);
 }
 
-var code = {};
-
 function getCode(qq){
     let c = randint(100000, 999999);
-    code[qq] = c;
+    insertCode(qq, c);
     setTimeout(function(){
-        delete code[qq];
+        deleteCode(qq, c);
     }, 60000);
     return c;
 }
 function verifyCode(qq, c){
-    if(code[qq] == undefined)
-        return -1;
-    if('' + code[qq] != c)
-        return 0;
-    return 1;
+    return queryCode(qq, c);
 }
 
 function isLoggedIn(res){

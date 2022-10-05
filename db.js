@@ -24,6 +24,11 @@ async function del(collection, whereStr){
     console.log('delete', collection, whereStr, result);
     return result;
 }
+async function del(collection, whereStr){
+    let result = await db.collection(collection).deleteMany(whereStr);
+    console.log('delete', collection, whereStr, result);
+    return result;
+}
 
 async function login(username, password){
     password = SHA256(password);
@@ -36,6 +41,25 @@ async function register(username, password, qq){
 async function getQQ(username){
     return (await query('user', {username: username}))[0].qq;
 }
+async function checkSame(username, qq){
+    let uname = (await query('user', {username: username})).length != 0;
+    let uqq = (await query('user', {qq: qq})).length != 0;
+    return uname || uqq;
+}
+
+async function insertCode(qq, code){
+    return (await insert('code', {qq: qq, code: code}));
+}
+async function queryCode(qq, code){
+    return (await query('code', {qq: qq, code: code})).length != 0;
+}
+async function deleteCode(qq){
+    return (await del('code', {qq: qq}));
+}
+
+async function deleteAllCode(){
+    return (await del('code', {}));
+}
 
 // await query('user', {username: 'oimaster'});
 // await insert('user', {username: 'oimaster', password: 'chinokafuu'});
@@ -46,5 +70,10 @@ async function getQQ(username){
 module.exports = {
     login,
     register,
-    getQQ
+    getQQ,
+    checkSame,
+    insertCode,
+    queryCode,
+    deleteCode,
+    deleteAllCode
 };

@@ -4,10 +4,20 @@
     用户名：<input type="text" name="username" placeholder="chinokafuu"><br>
     密码：<input type="text" name="password" placeholder="********"><br>
     QQ：<input type="text" name="qq" placeholder="<%= botqq %>"><br>
-    验证码：<input type="text" name="code" placeholder="114514"><a href="#" onclick="document.getElementById('whereisthecode').open=(!document.getElementById('whereisthecode').open);">如何获取验证码</a><br>
-    <dialog id="whereisthecode">
+    验证码：<input type="text" name="code" placeholder="114514"><br>
+    <!-- <a href="#" onclick="document.getElementById('whereisthecode').open=(!document.getElementById('whereisthecode').open);">如何获取验证码</a> -->
+    <!-- <dialog id="whereisthecode">
         请加机器人的 QQ 号<%= botqq %>，然后发送「验证码」获取。
-    </dialog>
+    </dialog> -->
     <input type="submit" value="注册">
+    <details open>
+        <summary>我们如何处理您的密码？</summary>
+        <p>您的密码将会在服务器后台经过<strong>不可逆</strong>加密后存储。我们不会查看，也无法破解您的密码。</p>
+    </details>
+    <details open>
+        <summary>如何获取「验证码」？</summary>
+        <p>请加机器人的 QQ 号<%= botqq %>，然后发送「验证码」获取。</p>
+    </details>
 </form>
+
 <%- include('footer') %>
