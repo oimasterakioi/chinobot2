@@ -15,5 +15,14 @@
   "bugs": {
     "url": "https://github.com/oimasterakioi/chinobot2/issues"
   },
-  "homepage": "https://github.com/oimasterakioi/chinobot2#readme"
+  "homepage": "https://github.com/oimasterakioi/chinobot2#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3",
+    "moment": "^2.29.4",
+    "mongodb": "^4.10.0",
+    "oicq": "^2.3.1"
+  }
 }

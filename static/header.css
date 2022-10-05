@@ -1,0 +1,40 @@
+header > div.info {
+    width: 100%;
+}
+header > div.info > img {
+    height: 45px;
+    vertical-align: middle;
+}
+header > div.info > div.infoname {
+    font-size: 40px;
+    font-weight: bold;
+    vertical-align: middle;
+    display: inline;
+}
+header > div.info > div.author {
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    color: #eee;
+    float: right;
+    display: inline;
+}
+
+header > div.nav {
+    border-width: 1px;
+    border-radius: 5px;
+    background-color: #ffebcd;
+    padding: 3px;
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+header > div.nav > a,
+header > div.nav > div > a {
+    text-decoration: none;
+    color: rgb(88, 50, 23);
+    padding: 5px;
+}
+
+header > div.nav > div.account {
+    float: right;
+}

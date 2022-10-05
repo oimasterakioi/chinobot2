@@ -1,0 +1,24 @@
+<header>
+    <div class="info">
+        <img src="<%= avatarUrl %>">
+        <div class="infoname">チノ</div>
+        <div class="author">OI-Master Studio</div>
+    </div>
+    <div class="nav">
+        <a href="/">主页</a>
+        <a href>仪表盘</a>
+        <a href>自定义问答</a>
+        <a href>定时提醒</a>
+        <a href>群聊管理</a>
+        
+        <div class="account">
+            <% if (username == undefined) { %>
+                <a href="/login">登录</a>
+                <a href="/register">注册</a>
+            <% } else { %>
+                <a title="QQ: <%= qq %>"><%= username %></a>
+                <a href="/logout">注销</a>
+            <% } %>
+        </div>
+    </div>
+</header>
