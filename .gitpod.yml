@@ -1,0 +1,7 @@
+image: gitpod/workspace-mongodb
+tasks:
+  - name: MongoDB
+    init: mkdir -p /workspace/chinobot2/db
+    command: mongod --dbpath /workspace/chinobot2/db
+  - name: App
+    init: npm i
