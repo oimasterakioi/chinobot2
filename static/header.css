@@ -4,6 +4,7 @@ header > div.info {
 header > div.info > img {
     height: 45px;
     vertical-align: middle;
+    border-radius: 6px;
 }
 header > div.info > div.infoname {
     font-size: 40px;

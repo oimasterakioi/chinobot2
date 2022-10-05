@@ -3,3 +3,12 @@ footer {
     font-size: 14px;
     color: #ccc;
 }
+
+footer > a {
+    text-decoration: none;
+    color: #ccc;
+}
+footer > a:hover {
+    text-decoration: none;
+    color: #aaa;
+}

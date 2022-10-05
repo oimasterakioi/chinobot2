@@ -2,4 +2,7 @@ div.container {
     margin-top: 5px;
     margin-left: calc(10% - 7px);
     margin-right: calc(10% - 7px);
+
+    /* user-select: none;
+    -webkit-user-select: none; */
 }

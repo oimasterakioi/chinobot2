@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const moment = require("moment");
 const path = require("path");
+const os = require('os');
 
 const config = require('./config.json');
 const { setPrivate, setGroup, getAvatar } = require('./qq');
@@ -35,6 +36,8 @@ app.locals.formatTime = formatTime;
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
 app.locals.avatarUrl = getAvatar();
+let cpuModel = os.cpus()[0].model;
+app.locals.cpu = (cpuModel == undefined ? '' : cpuModel);
 
 app.use((req, res, next) => {
     res.locals.username = req.session.username;
