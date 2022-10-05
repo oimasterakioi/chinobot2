@@ -74,6 +74,7 @@ function getAvatar(){
 }
 
 module.exports = {
+    account,
     setPrivate,
     setGroup,
     sendPrivateMessage,

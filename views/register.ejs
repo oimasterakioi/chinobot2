@@ -1,0 +1,13 @@
+<% title = '注册' %>
+<%- include('header') %>
+<form action="/register" method="POST">
+    用户名：<input type="text" name="username" placeholder="chinokafuu"><br>
+    密码：<input type="text" name="password" placeholder="********"><br>
+    QQ：<input type="text" name="qq" placeholder="<%= botqq %>"><br>
+    验证码：<input type="text" name="code" placeholder="114514"><a href="#" onclick="document.getElementById('whereisthecode').open=(!document.getElementById('whereisthecode').open);">如何获取验证码</a><br>
+    <dialog id="whereisthecode">
+        请加机器人的 QQ 号<%= botqq %>，然后发送「验证码」获取。
+    </dialog>
+    <input type="submit" value="注册">
+</form>
+<%- include('footer') %>

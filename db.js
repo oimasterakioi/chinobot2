@@ -26,12 +26,14 @@ async function del(collection, whereStr){
 }
 
 async function login(username, password){
-    return true;
     password = SHA256(password);
     return (await query('user', {username: username, password: password})).length != 0;
 }
+async function register(username, password, qq){
+    password = SHA256(password);
+    return (await insert('user', {username: username, password: password, qq: qq}));
+}
 async function getQQ(username){
-    return 202367038;
     return (await query('user', {username: username}))[0].qq;
 }
 
@@ -43,5 +45,6 @@ async function getQQ(username){
 
 module.exports = {
     login,
+    register,
     getQQ
 };

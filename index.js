@@ -11,10 +11,10 @@ const path = require("path");
 const os = require('os');
 
 const config = require('./config.json');
-const { setPrivate, setGroup, getAvatar } = require('./qq');
-const { getCode, formatTime, isLoggedIn, error } = require('./lib');
+const { setPrivate, setGroup, getAvatar, account } = require('./qq');
+const { getCode, formatTime, isLoggedIn, error, verifyCode } = require('./lib');
 const { isObject } = require('util');
-const { login, getQQ } = require('./db');
+const { login, getQQ, register } = require('./db');
 
 var app = express();
 const port = config.port;
@@ -38,6 +38,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')));
 app.locals.avatarUrl = getAvatar();
 let cpuModel = os.cpus()[0].model;
 app.locals.cpu = (cpuModel == undefined ? '' : cpuModel);
+app.locals.botqq = account;
 
 app.use((req, res, next) => {
     res.locals.username = req.session.username;
@@ -72,6 +73,54 @@ app.post('/login', async (req, res) => {
     }
     
     error(res, '用户名或密码错误。');
+});
+
+app.get('/register', (req, res) => {
+    if(isLoggedIn(res)){
+        error(res, '您已经登录过了。');
+        return;
+    }
+    res.render('register');
+});
+app.post('/register', async (req, res) => {
+    if(isLoggedIn(res)){
+        error(res, '您已经登录过了。');
+        return;
+    }
+    let username = req.body.username;
+    let password = req.body.password;
+    let qq = req.body.qq;
+    let code = req.body.code;
+
+    qq = parseInt(qq);
+    code = parseInt(code);
+    username = username.trim();
+    password = password.trim();
+
+    if(!qq || !code || username == '' || password == ''){
+        error(res, '不合法的表单。');
+        return;
+    }
+    if(password.length < 6){
+        error(res, '密码至少需要 6 个字符。');
+        return;
+    }
+
+    let codeRes = verifyCode(qq, code);
+    if(codeRes == 0){
+        error(res, '验证码不正确。');
+        return;
+    }
+    if(codeRes == -1){
+        error(res, '验证码过期。');
+        return;
+    }
+
+    register(username, password, qq);
+    req.session.username = username;
+    req.session.qq = qq;
+
+    res.redirect('/');
 });
 
 app.listen(port, () => {
