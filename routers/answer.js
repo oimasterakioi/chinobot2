@@ -30,6 +30,11 @@ answerRouter.post('/update', async (req, res) => {
         return;
     }
 
+    if(answer == ''){
+        error(res, '内容不能为空！');
+        return;
+    }
+
     if((await hasPermission(res.locals.qq, group_id)) == false){
         error(res, '您在群聊「' + group_id + '」中没有管理员权限。');
         return;
@@ -67,6 +72,11 @@ answerRouter.post('/insert', async (req, res) => {
     let keyword = req.body.keyword;
     let need_at = req.body.need_at == 'true';
     let answer = req.body.answer;
+
+    if(answer == ''){
+        error(res, '内容不能为空！');
+        return;
+    }
 
     if((await hasPermission(res.locals.qq, group_id)) == false){
         error(res, '您在群聊「' + group_id + '」中没有管理员权限。');

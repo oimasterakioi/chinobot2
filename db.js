@@ -86,6 +86,25 @@ async function updateQuestion(id, question){
     return (await update('question', {id}, question));
 }
 
+async function insertAlarm(id, group_id, days, time, timestr, need_at, content, creator){
+    return (await insert('alarm', {id, group_id, days, time, timestr, need_at, content, creator}));
+}
+async function getAllAlarms(username){
+    return (await query('alarm', {creator: username}));
+}
+async function isMyAlarm(id, creator){
+    return (await query('alarm', {id, creator})).length != 0;
+}
+async function queryAlarm( time ){
+    return (await query('alarm', {time}));
+}
+async function deleteAlarm(id){
+    return (await del('alarm', {id}));
+}
+async function updateAlarm(id, alarm){
+    return (await update('alarm', {id}, alarm));
+}
+
 // await query('user', {username: 'oimaster'});
 // await insert('user', {username: 'oimaster', password: 'chinokafuu'});
 // await query('user', {username: 'oimaster'});
@@ -107,5 +126,11 @@ module.exports = {
     isMyQuestion,
     getAllQuestions,
     deleteQuestion,
-    updateQuestion
+    updateQuestion,
+    insertAlarm,
+    queryAlarm,
+    isMyAlarm,
+    getAllAlarms,
+    deleteAlarm,
+    updateAlarm
 };

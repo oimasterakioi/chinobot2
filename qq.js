@@ -1,7 +1,7 @@
-const { createClient } = require('oicq');
+const { createClient, segment } = require('oicq');
 
 const config = require('./config.json');
-const { queryQuestion } = require('./db');
+const { queryQuestion, queryAlarm } = require('./db');
 const { getCode } = require('./lib');
 const account = config.account;
 const password = config.password;
@@ -102,6 +102,27 @@ async function hasPermission(user_id, group_id){
         return false;
     }
 }
+
+setInterval(async () => {
+    let now = new Date();
+    let hour = now.getHours();
+    let minute = now.getMinutes();
+    let day = now.getDay();
+    console.log('alarm check', hour, minute, day);
+
+    let alarms = await queryAlarm([hour, minute]);
+    for(let alarm of alarms){
+        if(alarm.days.indexOf(day) == -1)
+            continue;
+        console.log(alarm);
+        let message = [];
+        if(alarm.need_at)
+            message.push(segment.at('all'));
+        message.push(alarm.content);
+        console.log(message);
+        sendGroupMessage(alarm.group_id, message);
+    }
+}, 60000);
 
 module.exports = {
     account,

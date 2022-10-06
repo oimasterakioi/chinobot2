@@ -1,0 +1,136 @@
+<% title = '定时提醒' %>
+<%- include('header') %>
+<table>
+    <tr>
+        <th>
+            编号
+        </th>
+        <th>
+            群号
+        </th>
+        <th colspan="2">
+            触发时间
+        </th>
+        <th>
+            ＠全体成员
+        </th>
+        <th>
+            内容
+        </th>
+        <!-- <th>
+            创建者
+        </th> -->
+        <th colspan="2">
+            操作
+        </th>
+    </tr>
+    <% for (let i of alarms) { %>
+        <tr>
+            <form action="/alarm/update" method="POST">
+                <td>
+                    <input type="text" name="id" value="<%= i.id %>" readonly>
+                </td>
+                <td>
+                    <input type="text" name="group_id" value="<%= i.group_id %>">
+                </td>
+                <td>
+                    <select multiple name="days">
+                        <option value="0" <%= i.days.indexOf(0) != -1 ? 'selected' : '' %>>星期日</option>
+                        <option value="1" <%= i.days.indexOf(1) != -1 ? 'selected' : '' %>>星期一</option>
+                        <option value="2" <%= i.days.indexOf(2) != -1 ? 'selected' : '' %>>星期二</option>
+                        <option value="3" <%= i.days.indexOf(3) != -1 ? 'selected' : '' %>>星期三</option>
+                        <option value="4" <%= i.days.indexOf(4) != -1 ? 'selected' : '' %>>星期四</option>
+                        <option value="5" <%= i.days.indexOf(5) != -1 ? 'selected' : '' %>>星期五</option>
+                        <option value="6" <%= i.days.indexOf(6) != -1 ? 'selected' : '' %>>星期六</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="time" name="time" value="<%= i.timestr %>">
+                </td>
+                <td>
+                    <select name="need_at">
+                        <option value='true' <%= i.need_at? 'selected' : '' %>>需要</option>
+                        <option value='false' <%= i.need_at? '' : 'selected' %>>不需要</option>
+                    </select>
+                </td>
+                <td>
+                    <textarea type="text" name="content"><%= i.content %></textarea>
+                </td>
+                <!-- <td>
+                    <input type="text" value="<%= i.creator %>" readonly>
+                </td> -->
+                <td>
+                    <input type="submit" value="修改">
+                </td>
+            </form>
+            <form action="/alarm/delete" method="POST">
+                <input type="hidden" name="id" value="<%= i.id %>">
+                <td>
+                    <input type="submit" value="删除">
+                </td>
+            </form>
+        </tr>
+    <% } %>
+    <tr>
+        <form action="/alarm/insert" method="POST">
+            <td>
+                <input type="text" readonly placeholder="新建定时提醒">
+            </td>
+            <td>
+                <input type="text" name="group_id">
+            </td>
+            <td>
+                <select multiple name="days">
+                    <option value="0">星期日</option>
+                    <option value="1" selected>星期一</option>
+                    <option value="2" selected>星期二</option>
+                    <option value="3" selected>星期三</option>
+                    <option value="4" selected>星期四</option>
+                    <option value="5" selected>星期五</option>
+                    <option value="6">星期六</option>
+                </select>
+            </td>
+            <td>
+                <input type="time" name="time">
+            </td>
+            <td>
+                <select name="need_at">
+                    <option value='true' checked>需要</option>
+                    <option value='false'>不需要</option>
+                </select>
+            </td>
+            <td>
+                <textarea type="text" name="content"></textarea>
+            </td>
+            <!-- <td>
+                <input type="text" value="<%= username %>" readonly>
+            </td> -->
+            <td colspan="2">
+                <input type="submit" value="新建">
+            </td>
+        </form>
+    </tr>
+</table>
+
+
+<details open>
+    <summary>为什么我的定时提醒没有工作？</summary>
+    <p>
+        这是因为时区不对，不是因为您的系统时钟或者服务器时间不准。チノ Bot的服务器<strong>可能不在中国</strong>，所以服务器所在的时区不一定是您所在位置的时区，于是现在服务器的时间会和您的系统时钟不一样。
+    </p>
+</details>
+<details open>
+    <summary>如何解决这个问题？</summary>
+    <p>
+        您可以计算对应的服务器时间。一般情况下，服务器的时间中的「分钟」与您的系统时间是一致的。您只需要对「小时」做一些简单的加减运算，就可以得出。<br>
+        现在的服务器时间是「<code><%= currTime %></code>」，请对照调整您的设置。
+    </p>
+</details>
+<details open>
+    <summary>如何多选触发星期？</summary>
+    <p>
+        使用 <code>Shift</code> 和 <code>Command / Ctrl</code> 键进行多选。因不同操作系统、浏览器而异。
+    </p>
+</details>
+
+<%- include('footer') %>

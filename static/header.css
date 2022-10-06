@@ -1,5 +1,7 @@
 header > div.info {
     width: 100%;
+    user-select: none;
+    -webkit-user-select: none;
 }
 header > div.info > img {
     height: 45px;

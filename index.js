@@ -16,6 +16,7 @@ const { formatTime, mozaiku, map2obj } = require('./lib');
 const { accountRouter } = require('./routers/account');
 const { deleteAllCode, getAllUsers } = require('./db');
 const { answerRouter } = require('./routers/answer');
+const { alarmRouter } = require('./routers/alarm');
 
 setTimeout(() => {
     deleteAllCode();
@@ -56,6 +57,7 @@ app.get('/dashboard', async (req, res) => {
 });
 app.use('/', accountRouter);
 app.use('/answer', answerRouter);
+app.use('/alarm', alarmRouter);
 
 app.listen(port, () => {
     console.log('网页端正在监听端口', port);
