@@ -70,7 +70,7 @@ accountRouter.post('/register', async (req, res) => {
         return;
     }
 
-    if(checkSame(username, qq)){
+    if(await checkSame(username, qq)){
         error(res, '用户名或 QQ 已经被注册过。');
         return;
     }

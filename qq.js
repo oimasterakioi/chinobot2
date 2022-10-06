@@ -42,11 +42,11 @@ client.on('request.friend.add', (e) => {
         client.sendPrivateMsg(e.user_id, '您好，我是チノ。\nこんにちは、チノです。\nOI-Master Studio出品。');
     }, 5000);
 });
-client.on('request.group.invite', (e) => {
-    e.approve(true);
-    setTimeout(() => {
-        client.sendGroupMsg(e.group_id, '你们好，我是チノ。\nこんにちは、チノです。\nOI-Master Studio出品。');
-    }, 10000);
+client.on('notice.group.increase', (e) => {
+    if(e.user_id == account)
+        setTimeout(() => {
+            client.sendGroupMsg(e.group_id, '你们好，我是チノ。\nこんにちは、チノです。\nOI-Master Studio出品。');
+        }, 10000);
 });
 
 client.on('message.private.friend', (e) => {
