@@ -2,3 +2,27 @@ form {
     margin-left: 50%;
     transform: translateX(-50%);
 }
+input, select, option, textarea {
+    padding: 5px;
+    border-radius: 5px;
+    /* border-width: 1px; */
+    border-style: none;
+    width: 70%;
+    background-color: #f0f8ff;
+}
+td > input {
+    text-align: center;
+}
+input[type=submit] {
+    width: auto;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+input[type=checkbox] {
+    width: auto;
+}
+/* input[readonly] {
+    border-style: dashed;
+    border-width: 1px;
+    border-color: #f08080;
+} */

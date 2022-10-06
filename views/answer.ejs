@@ -1,0 +1,92 @@
+<% title = '自定义问答' %>
+<%- include('header') %>
+<table>
+    <tr>
+        <th>
+            编号
+        </th>
+        <th>
+            群号
+        </th>
+        <th>
+            触发关键词
+        </th>
+        <th>
+            ＠チノ
+        </th>
+        <th>
+            回答
+        </th>
+        <!-- <th>
+            创建者
+        </th> -->
+        <th colspan="2">
+            操作
+        </th>
+    </tr>
+    <% for (let i of questions) { %>
+        <tr>
+            <form action="/answer/update" method="POST">
+                <td>
+                    <input type="text" name="id" value="<%= i.id %>" readonly>
+                </td>
+                <td>
+                    <input type="text" name="group_id" value="<%= i.group_id %>">
+                </td>
+                <td>
+                    <input type="text" name="keyword" value="<%= i.keyword %>">
+                </td>
+                <td>
+                    <select name="need_at">
+                        <option value='true' <%= i.need_at? 'selected' : '' %>>需要</option>
+                        <option value='false' <%= i.need_at? '' : 'selected' %>>不需要</option>
+                    </select>
+                </td>
+                <td>
+                    <textarea type="text" name="answer"><%= i.answer %></textarea>
+                </td>
+                <!-- <td>
+                    <input type="text" value="<%= i.creator %>" readonly>
+                </td> -->
+                <td>
+                    <input type="submit" value="修改">
+                </td>
+            </form>
+            <form action="/answer/delete" method="POST">
+                <input type="hidden" name="id" value="<%= i.id %>">
+                <td>
+                    <input type="submit" value="删除">
+                </td>
+            </form>
+        </tr>
+    <% } %>
+    <tr>
+        <form action="/answer/insert" method="POST">
+            <td>
+                <input type="text" readonly placeholder="新建自定义问答">
+            </td>
+            <td>
+                <input type="text" name="group_id">
+            </td>
+            <td>
+                <input type="text" name="keyword">
+            </td>
+            <td>
+                <select name="need_at">
+                    <option value='true' checked>需要</option>
+                    <option value='false'>不需要</option>
+                </select>
+            </td>
+            <td>
+                <textarea type="text" name="answer"></textarea>
+            </td>
+            <!-- <td>
+                <input type="text" value="<%= username %>" readonly>
+            </td> -->
+            <td colspan="2">
+                <input type="submit" value="新建">
+            </td>
+        </form>
+    </tr>
+</table>
+<%- include('footer') %>

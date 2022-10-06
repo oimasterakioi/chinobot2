@@ -15,16 +15,22 @@ header > div.info > div.infoname {
 header > div.info > div.author {
     font-size: 20px;
     font-family: 'Courier New', Courier, monospace;
+    user-select: none;
+    -webkit-user-select: none;
     color: #eee;
     float: right;
     display: inline;
 }
 
 header > div.nav {
-    border-width: 1px;
     border-radius: 5px;
-    background-color: #ffebcd;
-    padding: 3px;
+    border-style: ridge;
+    border-width: 2px;
+
+    border-color: #ffebcd;
+    
+    font-weight: bold;
+    padding: 5px 3px;
     margin-top: 10px;
     margin-bottom: 5px;
 }

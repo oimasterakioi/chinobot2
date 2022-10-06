@@ -1,0 +1,144 @@
+<% title = '仪表盘' %>
+<%- include('header') %>
+
+
+<details open>
+    <summary>好友列表</summary>
+    <p>
+        <table>
+            <tr>
+                <th>
+                    QQ号
+                </th>
+                <th>
+                    用户名
+                </th>
+                <th>
+                    性别
+                </th>
+                <th>
+                    备注
+                </th>
+                <th>
+                    分组编号
+                </th>
+            </tr>
+            <% for (let i in friend) {
+                user = friend[i]; %>
+                <tr>
+                    <td>
+                        <%= user.user_id == qq ? qq : mozaiku(user.user_id) %>
+                    </td>
+                    <td>
+                        <%= user.nickname %>
+                    </td>
+                    <td>
+                        <%= user.sex %>
+                    </td>
+                    <td>
+                        <%= user.remark %>
+                    </td>
+                    <td>
+                        <%= user.class_id %>
+                    </td>
+                </tr>
+            <% } %>
+        </table>
+    </p>
+</details>
+<details open>
+    <summary>群聊列表</summary>
+    <p>
+        <table>
+            <tr>
+                <th>
+                    群号
+                </th>
+                <th>
+                    群名称
+                </th>
+                <th>
+                    群人数
+                </th>
+                <th>
+                    群最大人数
+                </th>
+                <th>
+                    群主
+                </th>
+                <th>
+                    最后加入时间
+                </th>
+                <th>
+                    机器人是否为管理员
+                </th>
+                <!-- <th>
+                    更新时间
+                </th> -->
+            </tr>
+            <% for (let i in group) {
+                g = group[i]; %>
+                <tr>
+                    <td>
+                        <%= g.owner_id == qq ? g.group_id : mozaiku(g.group_id) %>
+                    </td>
+                    <td>
+                        <%= g.group_name %>
+                    </td>
+                    <td>
+                        <%= g.member_count %>
+                    </td>
+                    <td>
+                        <%= g.max_member_count %>
+                    </td>
+                    <td>
+                        <%= g.owner_id == qq ? g.owner_id : mozaiku(g.owner_id) %>
+                    </td>
+                    <td>
+                        <%= formatTime(g.last_join_time) %>
+                    </td>
+                    <!-- <td>
+                        <%= g.shutup_time_whole %>
+                    </td>
+                    <td>
+                        <%= g.shutup_time_me %>
+                    </td> -->
+                    <td>
+                        <%= g.admin_flag %>
+                    </td>
+                    <!-- <td>
+                        <%= g.update_time %>
+                    </td> -->
+                </tr>
+            <% } %>
+        </table>
+    </p>
+</details>
+
+<details open>
+    <summary>用户列表</summary>
+    <p>
+        <table>
+            <tr>
+                <th>
+                    QQ号
+                </th>
+                <th>
+                    用户名
+                </th>
+            </tr>
+            <% for (let user of users) { %>
+                <tr>
+                    <td>
+                        <%= user.qq == qq ? qq : mozaiku(user.qq) %>
+                    </td>
+                    <td>
+                        <%= user.username %>
+                    </td>
+                </tr>
+            <% } %>
+        </table>
+    </p>
+</details>
+
+<%- include('footer') %>

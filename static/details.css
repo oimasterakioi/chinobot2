@@ -4,4 +4,5 @@ details {
 }
 details > summary {
     font-size: 16px;
+    color: #000;
 }

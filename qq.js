@@ -1,6 +1,7 @@
 const { createClient } = require('oicq');
 
 const config = require('./config.json');
+const { queryQuestion } = require('./db');
 const { getCode } = require('./lib');
 const account = config.account;
 const password = config.password;
@@ -56,8 +57,18 @@ client.on('message.private.friend', (e) => {
         e.reply('对不起，我不明白您的意思。');
     }
 });
-client.on('message.group', (e) => {
-    handler(e);
+client.on('message.group', async (e) => {
+    let atme = e.atme;
+    let answers = await queryQuestion(e.group_id, atme);
+
+    console.log(e.raw_message);
+    for(let i of answers){
+        console.log(i.keyword, e.raw_message.indexOf(i.keyword));
+        if(e.raw_message.indexOf(i.keyword) != -1){
+            e.reply(i.answer);
+            // e.reply(i.answer + '\n---------\n这是由用户「' + i.creator + '」设置的自定义问答。');
+        }
+    }
 });
 
 async function sendPrivateMessage(user_id, message){
@@ -70,9 +81,35 @@ function getAvatar(){
     return client.pickUser(account).getAvatarUrl(100);
 }
 
+function getFriends(){
+    return client.getFriendList();
+}
+function getGroups(){
+    return client.getGroupList();
+}
+
+function inGroup(group_id){
+    let groups = getGroups();
+    return (groups[group_id] != null)
+}
+async function hasPermission(user_id, group_id){
+    console.log(user_id, group_id, client);
+    try{
+        let info = await client.getGroupMemberInfo(group_id, user_id);
+        console.log(info);
+        return info.role == 'owner' || info.role == 'admin';
+    } catch {
+        return false;
+    }
+}
+
 module.exports = {
     account,
     sendPrivateMessage,
     sendGroupMessage,
-    getAvatar
-}
+    getFriends,
+    getGroups,
+    getAvatar,
+    inGroup,
+    hasPermission
+};

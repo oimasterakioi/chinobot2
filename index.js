@@ -11,14 +11,15 @@ const path = require("path");
 const os = require('os');
 
 const config = require('./config.json');
-const { setPrivate, setGroup, getAvatar, account } = require('./qq');
-const { getCode, formatTime, isLoggedIn, error, verifyCode } = require('./lib');
+const { getAvatar, account, getFriends, getGroups } = require('./qq');
+const { formatTime, mozaiku, map2obj } = require('./lib');
 const { accountRouter } = require('./routers/account');
-const { deleteAllCode } = require('./db');
+const { deleteAllCode, getAllUsers } = require('./db');
+const { answerRouter } = require('./routers/answer');
 
 setTimeout(() => {
     deleteAllCode();
-}, 8000);
+}, 3000);
 
 var app = express();
 const port = config.port;
@@ -32,6 +33,7 @@ app.use(session({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
 app.locals.formatTime = formatTime;
+app.locals.mozaiku = mozaiku;
 app.use('/static', express.static(path.join(__dirname, 'static')));
 
 app.locals.avatarUrl = getAvatar();
@@ -49,7 +51,11 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.render('index');
 });
+app.get('/dashboard', async (req, res) => {
+    res.render('dashboard', {friend: map2obj(getFriends()), group: map2obj(getGroups()), users: (await getAllUsers())});
+});
 app.use('/', accountRouter);
+app.use('/answer', answerRouter);
 
 app.listen(port, () => {
     console.log('网页端正在监听端口', port);

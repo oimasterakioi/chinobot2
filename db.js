@@ -19,9 +19,10 @@ async function insert(collection, object){
     console.log('insert', collection, object, result);
     return result;
 }
-async function del(collection, whereStr){
-    let result = await db.collection(collection).deleteMany(whereStr);
-    console.log('delete', collection, whereStr, result);
+async function update(collection, whereStr, object){
+    let upgrade = { $set: object };
+    let result = await db.collection(collection).updateMany(whereStr, upgrade);
+    console.log('update', collection, whereStr, upgrade, result);
     return result;
 }
 async function del(collection, whereStr){
@@ -32,33 +33,57 @@ async function del(collection, whereStr){
 
 async function login(username, password){
     password = SHA256(password);
-    return (await query('user', {username: username, password: password})).length != 0;
+    return (await query('user', {username, password})).length != 0;
 }
 async function register(username, password, qq){
     password = SHA256(password);
-    return (await insert('user', {username: username, password: password, qq: qq}));
+    return (await insert('user', {username, password, qq}));
 }
 async function getQQ(username){
-    return (await query('user', {username: username}))[0].qq;
+    return (await query('user', {username}))[0].qq;
 }
 async function checkSame(username, qq){
-    let uname = (await query('user', {username: username})).length != 0;
-    let uqq = (await query('user', {qq: qq})).length != 0;
+    let uname = (await query('user', {username})).length != 0;
+    let uqq = (await query('user', {qq})).length != 0;
     return uname || uqq;
 }
 
 async function insertCode(qq, code){
-    return (await insert('code', {qq: qq, code: code}));
+    return (await insert('code', {qq, code}));
 }
 async function queryCode(qq, code){
-    return (await query('code', {qq: qq, code: code})).length != 0;
+    return (await query('code', {qq, code})).length != 0;
 }
 async function deleteCode(qq){
-    return (await del('code', {qq: qq}));
+    return (await del('code', {qq}));
 }
 
 async function deleteAllCode(){
     return (await del('code', {}));
+}
+async function getAllUsers(){
+    return (await query('user', {}));
+}
+
+async function insertQuestion(id, group_id, keyword, need_at, answer, creator){
+    return (await insert('question', {id, group_id, keyword, need_at, answer, creator}));
+}
+async function getAllQuestions(username){
+    return (await query('question', {creator: username}));
+}
+async function isMyQuestion(id, creator){
+    return (await query('question', {id, creator})).length != 0;
+}
+async function queryQuestion( group_id, at = true ){
+    if(at == false)
+        return (await query('question', {group_id, need_at: false}));
+    return (await query('question', {group_id}));
+}
+async function deleteQuestion(id){
+    return (await del('question', {id}));
+}
+async function updateQuestion(id, question){
+    return (await update('question', {id}, question));
 }
 
 // await query('user', {username: 'oimaster'});
@@ -75,5 +100,12 @@ module.exports = {
     insertCode,
     queryCode,
     deleteCode,
-    deleteAllCode
+    deleteAllCode,
+    getAllUsers,
+    insertQuestion,
+    queryQuestion,
+    isMyQuestion,
+    getAllQuestions,
+    deleteQuestion,
+    updateQuestion
 };
